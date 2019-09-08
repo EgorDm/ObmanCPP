@@ -22,18 +22,20 @@ namespace object_manager {
 
         structures::KindTable kind_table;
 
-        Relations relations;
+        Relations* relations;  // TODO: managed by php!
 
     public:
+        Config(Relations *relations) : relations(relations) {}
+
         void set_relations(Relations relations) override;
 
-        std::unordered_map<std::string, Argument> *get_arguments(KindId &type) override;
+        std::unordered_map<std::string, Argument> *get_arguments(KindId type) override;
 
-        bool is_shared(KindId &type) override;
+        bool is_shared(KindId type) override;
 
         KindId get_instance_type(KindId instance_type) override;
 
-        KindId get_preference(KindId &type) override;
+        KindId get_preference(KindId type) override;
 
         std::unordered_map<KindId, KindId> &get_virtual_types() override;
 
@@ -41,7 +43,7 @@ namespace object_manager {
 
         std::unordered_map<KindId, KindId> &get_preferences() override;
 
-        KindTable &get_kind_table() {
+        KindTable &get_kind_table() override {
             return kind_table;
         }
     };

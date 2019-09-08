@@ -1,7 +1,3 @@
-//
-// Created by egordm on 08-09-19.
-//
-
 #include "config.h"
 #include "../utils.h"
 #include "../transformers/argument_transformer.h"
@@ -9,18 +5,18 @@
 using namespace object_manager;
 
 void Config::set_relations(Relations relations) {
-    this->relations = relations;
+    //this->relations = relations; TODO: chanege
 }
 
-std::unordered_map<std::string, Argument> *Config::get_arguments(KindId &type) {
+std::unordered_map<std::string, Argument> *Config::get_arguments(KindId type) {
     if(merged_arguments.find(type) == merged_arguments.end()) {
         std::unordered_map<std::string, Argument> res;
 
         auto virtual_type = virtual_types.find(type);
         if(virtual_type != virtual_types.end()) {
             res = *get_arguments(virtual_type->second);
-        } else if(relations.has(kind_table.get_accessor(type))) {
-            auto relations = this->relations.get_parents(kind_table.get_accessor(type));
+        } else if(relations->has(kind_table.get_accessor(type))) {
+            auto relations = this->relations->get_parents(kind_table.get_accessor(type));
             for(auto &relation : relations) {
                 if(!relation.empty()) {
                     auto relation_id = kind_table.get_id_or_insert(relation);
@@ -56,11 +52,11 @@ KindId Config::get_instance_type(KindId instance_type) {
     else return instance_type;
 }
 
-bool Config::is_shared(KindId &type) {
+bool Config::is_shared(KindId type) {
     return non_shared_types.find(type) == non_shared_types.end();
 }
 
-KindId Config::get_preference(KindId &type) {
+KindId Config::get_preference(KindId type) {
     auto res = preferences.find(type);
     if (res != preferences.end()) return res->second;
     else return type;
