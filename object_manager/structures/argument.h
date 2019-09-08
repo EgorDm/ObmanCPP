@@ -41,7 +41,7 @@ namespace object_manager::structures {
             return std::get<KindId>(value);
         }
 
-        const Php::Value &get_array() const {
+        Php::Value &get_array() {
             return std::get<Php::Value>(value);
         }
     };

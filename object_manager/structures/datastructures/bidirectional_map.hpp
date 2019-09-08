@@ -18,11 +18,11 @@ namespace object_manager::datastructures {
     public:
         BidirectionalMap() : map(), map_rev() {}
 
-        bool contains(L &left) {
+        bool contains(const L &left) {
             return map.find(left) != map.end();
         }
 
-        R& get(L &left) {
+        R& get(const L &left) {
            return map[left];
         }
 
@@ -30,11 +30,11 @@ namespace object_manager::datastructures {
             return map.insert({left, right}).second && map_rev.insert({right, left}).second;
         }
 
-        bool contains_rev(R &right) {
+        bool contains_rev(const R &right) {
             return map_rev.find(right) != map_rev.end();
         }
 
-        L& get_rev(R &right) {
+        L& get_rev(const R &right) {
             return map_rev[right];
         }
 

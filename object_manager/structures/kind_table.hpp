@@ -17,7 +17,7 @@ namespace object_manager::structures {
     public:
         KindTable() : table(), counter(0) {}
 
-        KindId get_id_or_insert(KindAccessor &a) {
+        KindId get_id_or_insert(const KindAccessor &a) {
             if(a.empty()) {
                 auto i = 0;
             }
@@ -29,7 +29,7 @@ namespace object_manager::structures {
             return table.get(a);
         }
 
-        std::optional<KindId> get_id(KindAccessor &a) {
+        std::optional<KindId> get_id(const KindAccessor &a) {
             if(table.contains(a)) return table.get(a); // TODO use iter result?
             else return std::nullopt;
         }

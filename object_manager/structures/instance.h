@@ -6,8 +6,10 @@
 
 #include <phpcpp.h>
 
-namespace object_manager {
+namespace object_manager::structures {
     struct Instance {
         Php::Value value;
+
+        Instance(const Php::Value &value) : value(value) {}
     };
 }
