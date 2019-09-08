@@ -17,13 +17,13 @@ namespace object_manager::interface {
     public:
         virtual void set_relations(Relations relations) = 0;
 
-        virtual std::unordered_map<std::string, Argument>* get_arguments(KindId &type) = 0;
+        virtual std::unordered_map<std::string, Argument>* get_arguments(KindId type) = 0;
 
-        virtual bool is_shared(KindId &type) = 0;
+        virtual bool is_shared(KindId type) = 0;
 
         virtual KindId get_instance_type(KindId type) = 0;
 
-        virtual KindId get_preference(KindId &type) = 0;
+        virtual KindId get_preference(KindId type) = 0;
 
         virtual std::unordered_map<KindId, KindId> &get_virtual_types() = 0;
 
@@ -31,5 +31,6 @@ namespace object_manager::interface {
 
         virtual std::unordered_map<KindId, KindId> &get_preferences() = 0;
 
+        virtual KindTable &get_kind_table() = 0;
     };
 }
