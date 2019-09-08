@@ -13,18 +13,25 @@ using namespace object_manager::interface;
 namespace object_manager {
     class Factory : public FactoryInterface {
     protected:
-        ObjectManagerInterface* object_manager; // TODO: managed by php!
-        ConfigInterface* config;
-        DefinitionInterface* definitions;
+        ObjectManagerInterface *object_manager; // TODO: managed by php!
+        ConfigInterface *config;
+        DefinitionInterface *definitions;
         std::unordered_map<std::string, Php::Value> global_arguments;
         std::vector<KindId> creation_stack; // TODO: combine and unordered set and with a vector for O(1) check and last retrieval
 
     public:
+        Factory(ObjectManagerInterface *object_manager, ConfigInterface *config, DefinitionInterface *definitions,
+                const std::unordered_map<std::string, Php::Value> &global_arguments)
+                : object_manager(object_manager), config(config), definitions(definitions),
+                  global_arguments(global_arguments) {}
+
         Instance create(KindId &requested_type, std::unordered_map<std::string, Argument> &arguments) override;
 
-        std::vector<Php::Value> resolve_arguments(KindId requested_type, std::vector<Parameter> &parameters, std::unordered_map<std::string, Argument> &arguments);
+        std::vector<Php::Value> resolve_arguments(KindId requested_type, std::vector<Parameter> &parameters,
+                                                  std::unordered_map<std::string, Argument> &arguments);
 
-        std::vector<Php::Value> resolve_arguments_in_runtime(KindId requested_type, std::vector<Parameter> &parameters, std::unordered_map<std::string, Argument> &arguments);
+        std::vector<Php::Value> resolve_arguments_in_runtime(KindId requested_type, std::vector<Parameter> &parameters,
+                                                             std::unordered_map<std::string, Argument> &arguments);
 
         Php::Value resolve_argument(Argument &argument, const Parameter &parameter, KindId requested_type);
 

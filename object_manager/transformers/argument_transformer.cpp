@@ -49,4 +49,5 @@ Php::Value transformers::serialize_argument(Argument &argument, KindTable &kind_
         case Kind: return Php::Array(std::map<std::string, Php::Value>({{"instance", kind_table.get_accessor(argument.get_kind())}}));
         case Array: return argument.get_array();
     }
+    return Php::Value();
 }

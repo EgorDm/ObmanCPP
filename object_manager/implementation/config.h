@@ -22,12 +22,12 @@ namespace object_manager {
 
         structures::KindTable kind_table;
 
-        Relations* relations;  // TODO: managed by php!
+        RelationsInterface* relations;  // TODO: managed by php!
 
     public:
-        Config(Relations *relations) : relations(relations) {}
+        Config(RelationsInterface *relations) : relations(relations) {}
 
-        void set_relations(Relations relations) override;
+        void set_relations(RelationsInterface *relations) override;
 
         std::unordered_map<std::string, Argument> *get_arguments(KindId type) override;
 

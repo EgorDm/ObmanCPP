@@ -31,7 +31,7 @@ Instance Factory::create(KindId &requested_type, std::unordered_map<std::string,
 }
 
 void Factory::set_object_manager(ObjectManagerInterface *object_manager) {
-    this->object_manager = std::unique_ptr<ObjectManagerInterface>(object_manager);
+    this->object_manager = object_manager;
 }
 
 std::vector<Php::Value> Factory::resolve_arguments(KindId requested_type, std::vector<Parameter> &parameters,
@@ -116,6 +116,8 @@ Php::Value Factory::resolve_argument_simple(Argument &argument, const Php::Value
             }
         }
     }
+
+    return Php::Value();
 }
 
 Php::Value Factory::parse_array(Php::Value &array) {

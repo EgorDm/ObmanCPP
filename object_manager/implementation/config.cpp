@@ -4,8 +4,8 @@
 
 using namespace object_manager;
 
-void Config::set_relations(Relations relations) {
-    //this->relations = relations; TODO: chanege
+void Config::set_relations(RelationsInterface *relations) {
+    this->relations = relations;
 }
 
 std::unordered_map<std::string, Argument> *Config::get_arguments(KindId type) {

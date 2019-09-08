@@ -15,7 +15,7 @@ using namespace object_manager::structures;
 namespace object_manager::interface {
     class ConfigInterface {
     public:
-        virtual void set_relations(Relations relations) = 0;
+        virtual void set_relations(RelationsInterface *relations) = 0;
 
         virtual std::unordered_map<std::string, Argument>* get_arguments(KindId type) = 0;
 

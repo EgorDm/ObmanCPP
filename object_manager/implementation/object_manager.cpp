@@ -19,7 +19,7 @@ Instance ObjectManager::create(KindAccessor type, std::unordered_map<std::string
 
 Instance &ObjectManager::get(const KindId &id) {
     if(shared_instances.find(id) == shared_instances.end()) {
-        std::map<std::string, Php::Value> args;
+        std::unordered_map<std::string, Argument> args;
         shared_instances[id] = create(id, args);
     }
 

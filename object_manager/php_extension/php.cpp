@@ -1,5 +1,5 @@
-#include "php.h"
 #include <phpcpp.h>
+#include "config.h"
 
 
 extern "C" {
@@ -7,6 +7,7 @@ PHPCPP_EXPORT void *get_module() {
     static Php::Extension extension("object_manager", "1.0");
 
     Php::Class<php_extension::Config> config("EgorDm\\Obman\\Config");
+    config.method<&php_extension::Config::__construct>("__construct");
     config.method<&php_extension::Config::set_relations>("setRelations");
     config.method<&php_extension::Config::set_cache>("setCache");
     config.method<&php_extension::Config::get_arguments>("getArguments");
