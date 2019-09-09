@@ -14,7 +14,7 @@ PHPCPP_EXPORT void *get_module() {
     config.method<&php_extension::Config::is_shared>("isShared");
     config.method<&php_extension::Config::get_preference>("getPreference");
     config.method<&php_extension::Config::get_instance_type>("getInstanceType");
-    config.method<&php_extension::Config::get_virtual_types>("getVirtualType");
+    config.method<&php_extension::Config::get_virtual_types>("getVirtualTypes");
     config.method<&php_extension::Config::extend>("extend");
     config.method<&php_extension::Config::get_preferences>("getPreferences");
 

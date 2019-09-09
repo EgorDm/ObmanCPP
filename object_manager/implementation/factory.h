@@ -40,6 +40,19 @@ namespace object_manager {
         Php::Value parse_array(Php::Value &array);
 
         void set_object_manager(ObjectManagerInterface *object_manager) override;
+
+        ObjectManagerInterface &get_object_manager() const {
+            return *object_manager;
+        }
+
+        ConfigInterface &get_config() const {
+            // TODO: throw a runtime error when not set. Or return a ptr and let others check
+            return *config;
+        }
+
+        DefinitionInterface &get_definitions() const {
+            return *definitions;
+        }
     };
 };
 
