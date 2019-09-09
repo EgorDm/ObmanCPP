@@ -5,6 +5,7 @@
 #pragma once
 
 #include <phpcpp.h>
+#include <utility>
 #include <variant>
 #include "accessor.h"
 
@@ -21,9 +22,9 @@ namespace object_manager::structures {
         std::variant<Php::Value, std::string, KindId> value;
 
     public:
-        Argument() {}
+        Argument() = default;
 
-        Argument(ArgumentType type, const std::variant<Php::Value, std::string, KindId> &value) : type(type), value(value) {}
+        Argument(ArgumentType type, std::variant<Php::Value, std::string, KindId> value) : type(type), value(std::move(value)) {}
 
         ArgumentType get_type() const {
             return type;
@@ -43,6 +44,13 @@ namespace object_manager::structures {
 
         Php::Value &get_array() {
             return std::get<Php::Value>(value);
+        }
+
+        void merge(Argument &argument) {
+            // Merge only if arrays
+            if(get_type() == argument.get_type() && get_type() == ArgumentType::Array) {
+                value = Php::call("array_merge_recursive", get_array(), argument.get_array());
+            }
         }
     };
 }

@@ -16,14 +16,20 @@ std::unordered_map<std::string, Argument> *Config::get_arguments(KindId type) {
         if(virtual_type != virtual_types.end()) {
             res = *get_arguments(virtual_type->second);
         } else if(relations->has(kind_table.get_accessor(type))) {
-            auto relations = this->relations->get_parents(kind_table.get_accessor(type));
-            for(auto &relation : relations) {
-                if(!relation.empty()) {
-                    auto relation_id = kind_table.get_id_or_insert(relation);
-                    auto relation_arguments = get_arguments(relation_id);
-                    if(relation_arguments != nullptr) {
-                        for(const auto &[param, arg] : *relation_arguments) {
-                            res[param] = arg;
+            auto parents = this->relations->get_parents(kind_table.get_accessor(type));
+            for(auto &parent : parents) {
+                if(!parent.empty()) {
+                    auto parent_id = kind_table.get_id_or_insert(parent);
+                    auto parent_arguments = get_arguments(parent_id);
+                    if(parent_arguments != nullptr) {
+                        for(auto &[param, arg] : *parent_arguments) {
+                            // Merge recursive. TODO: make a separate fn
+                            auto param_it = res.find(param);
+                            if(param_it != res.end()) {
+                                param_it->second.merge(arg);
+                            } else {
+                                res.insert({param, arg});
+                            }
                         }
                     }
                 }
@@ -32,8 +38,14 @@ std::unordered_map<std::string, Argument> *Config::get_arguments(KindId type) {
 
         auto arguments_it = arguments.find(type);
         if(arguments_it != arguments.end()) {
-            for(const auto &[param, arg] : arguments_it->second) {
-                res[param] = arg;
+            for(auto &[param, arg] : arguments_it->second) {
+                // Merge recursive. TODO: make a separate fn
+                auto param_it = res.find(param);
+                if(param_it != res.end()) {
+                    param_it->second.merge(arg);
+                } else {
+                    res.insert({param, arg});
+                }
             }
         }
 
