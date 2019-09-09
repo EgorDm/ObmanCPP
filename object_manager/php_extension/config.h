@@ -11,10 +11,10 @@ namespace php_extension {
     class Config : public Php::Base {
     protected:
         Php::Value relations;
-        object_manager::Config config;
+        object_manager::Config instance;
 
     public:
-        Config() : config(nullptr) {}
+        Config() : instance(nullptr) {}
 
         void __construct(Php::Parameters &params)
         {
@@ -26,7 +26,7 @@ namespace php_extension {
         void set_relations(Php::Parameters &params) {
             relations = params[0];
 //            config.set_relations(relations.implementation<RelationsInterface>());
-           config.set_relations(new object_manager::Relations(relations)); // TODO: this is a memory leak. Store first
+           instance.set_relations(new object_manager::Relations(relations)); // TODO: this is a memory leak. Store first
         }
 
         void set_cache(Php::Parameters &params) {}
@@ -43,10 +43,15 @@ namespace php_extension {
 
         void extend(Php::Parameters &params) {
             auto conf  = params[0].mapValue();
-            config.extend(conf);
+            instance.extend(conf);
         }
 
         Php::Value get_preferences();
+
+    public:
+        object_manager::Config &get_instance() {
+            return instance;
+        }
     };
 }
 

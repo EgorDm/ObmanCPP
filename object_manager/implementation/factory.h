@@ -45,14 +45,20 @@ namespace object_manager {
             return *object_manager;
         }
 
+        void set_config(ConfigInterface *config);
+
         ConfigInterface &get_config() const {
             // TODO: throw a runtime error when not set. Or return a ptr and let others check
             return *config;
         }
 
+        void set_definitions(DefinitionInterface *definitions);
+
         DefinitionInterface &get_definitions() const {
             return *definitions;
         }
+
+        void set_global_arguments(const std::unordered_map<std::string, Php::Value> &global_arguments);
     };
 };
 

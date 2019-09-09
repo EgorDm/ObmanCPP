@@ -14,8 +14,8 @@ using namespace object_manager::structures;
 namespace object_manager {
     class ObjectManager : public ObjectManagerInterface {
     protected:
-        Config* config; // TODO: managed by php!
-        Factory* factory;
+        ConfigInterface* config; // TODO: managed by php!
+        FactoryInterface* factory;
 
         std::unordered_map<KindId, Instance> shared_instances;
     public:
@@ -31,6 +31,20 @@ namespace object_manager {
         Instance &get(KindAccessor type) override;
 
         void configure(std::map<std::string, Php::Value> &configuration) override;
+
+        ConfigInterface &get_config() const;
+
+        void set_config(ConfigInterface *config);
+
+        FactoryInterface &get_factory() const;
+
+        void set_factory(FactoryInterface *factory);
+
+        const std::unordered_map<KindId, Instance> &get_shared_instances() const;
+
+        void set_shared_instances(const std::unordered_map<KindId, Instance> &shared_instances);
+
+        void add_shared_instance(KindId kind, const Instance &instance);
     };
 };
 

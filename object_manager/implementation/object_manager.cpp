@@ -34,3 +34,31 @@ Instance &ObjectManager::get(KindAccessor type) {
 void ObjectManager::configure(std::map<std::string, Php::Value> &configuration) {
     config->extend(configuration);
 }
+
+ConfigInterface &ObjectManager::get_config() const {
+    return *config; // TODO: check if is not null
+}
+
+void ObjectManager::set_config(ConfigInterface *config) {
+    ObjectManager::config = config;
+}
+
+FactoryInterface &ObjectManager::get_factory() const {
+    return *factory;
+}
+
+void ObjectManager::set_factory(FactoryInterface *factory) {
+    ObjectManager::factory = factory;
+}
+
+const std::unordered_map<KindId, Instance> &ObjectManager::get_shared_instances() const {
+    return shared_instances;
+}
+
+void ObjectManager::set_shared_instances(const std::unordered_map<KindId, Instance> &shared_instances) {
+    ObjectManager::shared_instances = shared_instances;
+}
+
+void ObjectManager::add_shared_instance(KindId kind, const Instance &instance) {
+    shared_instances[kind] = instance;
+}

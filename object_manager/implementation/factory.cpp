@@ -44,7 +44,7 @@ std::vector<Php::Value> Factory::resolve_arguments(KindId requested_type, std::v
                 arguments[name] = argument;
             }
         } else {
-            arguments.clear();
+            //arguments.clear(); TODO: not sure what they want
         }
     }
 
@@ -129,4 +129,16 @@ Php::Value Factory::parse_array(Php::Value &array) {
     }
 
     return array;
+}
+
+void Factory::set_config(ConfigInterface *config) {
+    Factory::config = config;
+}
+
+void Factory::set_definitions(DefinitionInterface *definitions) {
+    Factory::definitions = definitions;
+}
+
+void Factory::set_global_arguments(const std::unordered_map<std::string, Php::Value> &global_arguments) {
+    Factory::global_arguments = global_arguments;
 }
