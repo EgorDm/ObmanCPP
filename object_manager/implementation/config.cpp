@@ -22,14 +22,8 @@ std::unordered_map<std::string, Argument> *Config::get_arguments(KindId type) {
                     auto parent_id = kind_table.get_id_or_insert(parent);
                     auto parent_arguments = get_arguments(parent_id);
                     if(parent_arguments != nullptr) {
-                        for(auto &[param, arg] : *parent_arguments) {
-                            // Merge recursive. TODO: make a separate fn
-                            auto param_it = res.find(param);
-                            if(param_it != res.end()) {
-                                param_it->second.merge(arg);
-                            } else {
-                                res.insert({param, arg});
-                            }
+                        for(const auto &[param, arg] : *parent_arguments) {
+                            res[param] = arg;
                         }
                     }
                 }
@@ -39,10 +33,9 @@ std::unordered_map<std::string, Argument> *Config::get_arguments(KindId type) {
         auto arguments_it = arguments.find(type);
         if(arguments_it != arguments.end()) {
             for(auto &[param, arg] : arguments_it->second) {
-                // Merge recursive. TODO: make a separate fn
                 auto param_it = res.find(param);
                 if(param_it != res.end()) {
-                    param_it->second.merge(arg);
+                    param_it->second.replace_recursive(arg);
                 } else {
                     res.insert({param, arg});
                 }

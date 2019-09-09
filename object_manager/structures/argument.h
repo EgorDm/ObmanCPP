@@ -46,11 +46,15 @@ namespace object_manager::structures {
             return std::get<Php::Value>(value);
         }
 
-        void merge(Argument &argument) {
+        void replace_recursive(Argument &argument) {
             // Merge only if arrays
             if(get_type() == argument.get_type() && get_type() == ArgumentType::Array) {
-                value = Php::call("array_merge_recursive", get_array(), argument.get_array());
+                value = Php::call("array_replace_recursive", get_array(), argument.get_array());
+            } else {
+                type = argument.type;
+                value = argument.value;
             }
+
         }
     };
 }
