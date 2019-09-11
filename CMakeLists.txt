@@ -13,5 +13,4 @@ endif()
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs")
 
 add_subdirectory(object_manager)
-#add_subdirectory(obman_php)
-#add_subdirectory(tests)
+add_subdirectory(interception)
