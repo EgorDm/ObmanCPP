@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include "../interfaces/config_interface.h"
 #include "../structures/kind_table.hpp"
+#include "../wrappers/relations.h"
 #include "relations.h"
 
 using namespace object_manager::interface;
@@ -20,14 +21,12 @@ namespace object_manager {
         std::unordered_map<KindId, std::unordered_map<std::string, Argument>> merged_arguments;
         std::unordered_set<KindId> non_shared_types;
 
-        structures::KindTable kind_table;
-
-        RelationsInterface* relations;  // TODO: managed by php!
+        Relations relations;
 
     public:
-        Config(RelationsInterface *relations) : relations(relations) {}
+        Config() : relations() {}
 
-        void set_relations(RelationsInterface *relations) override;
+        void set_relations(RelationsInterface *relations) override {}
 
         std::unordered_map<std::string, Argument> *get_arguments(KindId type) override;
 
@@ -42,10 +41,6 @@ namespace object_manager {
         void extend(std::map<std::string, Php::Value> &configuration) override;
 
         std::unordered_map<KindId, KindId> &get_preferences() override;
-
-        KindTable &get_kind_table() override {
-            return kind_table;
-        }
     };
 
 }

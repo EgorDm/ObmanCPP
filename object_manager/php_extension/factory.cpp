@@ -6,7 +6,6 @@
 #include "../transformers/argument_transformer.h"
 #include "../implementation/definition.h"
 #include "../utils.h"
-#include "definition.h"
 #include "config.h"
 #include "object_manager.h"
 
@@ -21,14 +20,8 @@ void Factory::__construct(Php::Parameters &params) {
     auto object_manager_instance = object_manager_handle.implementation<ObjectManager>();
     instance.set_object_manager(object_manager_instance ? &object_manager_instance->get_instance() : nullptr);
 
-    if (params.size() > 2) definitions_handle = params[2];
-    auto definitions_impl = definitions_handle.implementation<DefinitionInterface>();
-    if (definitions_impl) {
-        instance.set_definitions(definitions_handle.implementation<DefinitionInterface>());
-    } else {
-        instance.set_definitions(reinterpret_cast<DefinitionInterface *>(
-                                         new object_manager::Definition(config_instance ? &config_instance->get_instance() : nullptr)
-                                 )); // TODO memory leak
+    if (params.size() > 2) {
+        // do nothing. We dont need magneto's definitions class
     }
 
     std::unordered_map<std::string, Php::Value> global_arguments;
@@ -40,10 +33,10 @@ void Factory::__construct(Php::Parameters &params) {
 
 Php::Value Factory::create(Php::Parameters &params) {
     auto accessor = params[0].stringValue();
-    auto id = instance.get_config().get_kind_table().get_id_or_insert(object_manager::utils::trim_slash(accessor));
+    auto id = KindTable::get_instance().get_id_or_insert(object_manager::utils::trim_slash(accessor));
     std::unordered_map<std::string, Argument> arguments;
     if (params.size() > 1) {
-        arguments = object_manager::transformers::parse_arguments(params[1], instance.get_config().get_kind_table());
+        arguments = object_manager::transformers::parse_arguments(params[1], KindTable::get_instance());
     }
     return instance.create(id, arguments).value;
 }

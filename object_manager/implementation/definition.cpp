@@ -5,7 +5,7 @@
 #include "definition.h"
 
 std::vector<Parameter> object_manager::Definition::get_parameters(KindId kind_id) {
-    KindAccessor accessor = config->get_kind_table().get_accessor(kind_id); // TODO fill
+    KindAccessor accessor = KindTable::get_instance().get_accessor(kind_id); // TODO fill
     if (definitions.find(kind_id) == definitions.end()) { // TODO: class reader
         Php::Object reflection("\\ReflectionClass", accessor);
         Php::Value constructor = reflection.call("getConstructor");

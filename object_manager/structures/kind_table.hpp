@@ -18,11 +18,11 @@ namespace object_manager::structures {
         KindTable() : table(), counter(0) {}
 
         KindId get_id_or_insert(const KindAccessor &a) {
-            if(a.empty()) {
+            if (a.empty()) {
                 auto i = 0;
             }
 
-            if(!table.contains(a)) {
+            if (!table.contains(a)) {
                 table.insert(a, counter++);
             }
 
@@ -30,12 +30,25 @@ namespace object_manager::structures {
         }
 
         std::optional<KindId> get_id(const KindAccessor &a) {
-            if(table.contains(a)) return table.get(a); // TODO use iter result?
+            if (table.contains(a)) return table.get(a); // TODO use iter result?
             else return std::nullopt;
         }
 
-        KindAccessor& get_accessor(KindId id) {
+        KindAccessor &get_accessor(KindId id) {
             return table.get_rev(id); // TODO: make get opt
         }
+
+        // Singleton kind table. Makes the whole thing non thread safe
+        // But it was non-ts because of stack anyway.
+    public:
+        static KindTable &get_instance() {
+            static KindTable instance;
+            return instance;
+        }
+
+    public:
+        KindTable(KindTable const &) = delete;
+
+        void operator=(KindTable const &) = delete;
     };
 }

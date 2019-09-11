@@ -13,7 +13,7 @@ Instance ObjectManager::create(const KindId &id, std::unordered_map<std::string,
 }
 
 Instance ObjectManager::create(KindAccessor type, std::unordered_map<std::string, Argument> &arguments) {
-    auto id = config->get_kind_table().get_id_or_insert(utils::trim_slash(type));
+    auto id = KindTable::get_instance().get_id_or_insert(utils::trim_slash(type));
     return create(id, arguments);
 }
 
@@ -27,7 +27,7 @@ Instance &ObjectManager::get(const KindId &id) {
 }
 
 Instance &ObjectManager::get(KindAccessor type) {
-    auto id = config->get_kind_table().get_id_or_insert(utils::trim_slash(type));
+    auto id = KindTable::get_instance().get_id_or_insert(utils::trim_slash(type));
     return get(id);
 }
 

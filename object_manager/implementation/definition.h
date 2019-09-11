@@ -11,11 +11,10 @@ using namespace object_manager::interface;
 namespace object_manager {
     class Definition : public DefinitionInterface {
     protected:
-        ConfigInterface *config;
         std::unordered_map<KindId, std::vector<Parameter>> definitions;
 
     public:
-        Definition(ConfigInterface *config) : config(config) {}
+        Definition() {}
 
         std::vector<Parameter> get_parameters(KindId kind_id) override;
 

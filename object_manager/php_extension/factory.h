@@ -15,10 +15,9 @@ namespace php_extension {
         object_manager::Factory instance;
         Php::Value object_manager_handle;
         Php::Value config_handle;
-        Php::Value definitions_handle;
 
     public:
-        Factory() : instance(nullptr, nullptr, nullptr, {}) {};
+        Factory() : instance(nullptr, nullptr, {}) {};
 
         void __construct(Php::Parameters &params);
 

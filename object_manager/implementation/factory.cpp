@@ -10,15 +10,15 @@ using namespace object_manager;
 
 Instance Factory::create(KindId &requested_type, std::unordered_map<std::string, Argument> &arguments) {
     KindId type = config->get_instance_type(requested_type);
-    auto accessor = config->get_kind_table().get_accessor(type);
-    auto parameters = definitions->get_parameters(type);
+    auto accessor = KindTable::get_instance().get_accessor(type);
+    auto parameters = definition.get_parameters(type);
     if (parameters.empty()) {
         return Instance(Php::Object(accessor));
     }
 
     if (std::find(creation_stack.begin(), creation_stack.end(), type) != creation_stack.end()) {
-        std::cerr << "Circular dependency: " << config->get_kind_table().get_accessor(requested_type) << " depends on "
-                  << config->get_kind_table().get_accessor(creation_stack.back()) << " and vice versa.";
+        std::cerr << "Circular dependency: " << KindTable::get_instance().get_accessor(requested_type) << " depends on "
+                  << KindTable::get_instance().get_accessor(creation_stack.back()) << " and vice versa.";
         creation_stack.clear();
         throw std::runtime_error("Found circular dependency!");
     }
@@ -61,13 +61,13 @@ std::vector<Php::Value> Factory::resolve_arguments_in_runtime(KindId requested_t
             resolved_arguments.push_back(resolve_argument(arguments[parameter.get_name()], parameter, requested_type));
         } else if (parameter.is_required()) {
             if (parameter.get_type().has_value()) {
-                auto parameter_kind = config->get_kind_table().get_id_or_insert(parameter.get_type().value());
+                auto parameter_kind = KindTable::get_instance().get_id_or_insert(parameter.get_type().value());
                 auto argument = Argument(ArgumentType::Kind, parameter_kind);
                 resolved_arguments.push_back(resolve_argument(argument, parameter, requested_type));
             } else {
                 creation_stack.clear();
                 std::cerr << "Missing required argument $" << parameter.get_name() << " of "
-                          << config->get_kind_table().get_accessor(requested_type) << "." << std::endl;
+                          << KindTable::get_instance().get_accessor(requested_type) << "." << std::endl;
                 throw std::runtime_error("Missing required argument");
             }
         } else {
@@ -124,7 +124,7 @@ Php::Value Factory::parse_array(Php::Value &array) {
     for(auto &[key, value] : array) {
         if(!value.isArray()) continue;
 
-        auto argument = transformers::transform_argument(value, config->get_kind_table());
+        auto argument = transformers::transform_argument(value, KindTable::get_instance());
         array[key] = resolve_argument_simple(argument, value);
     }
 
@@ -133,10 +133,6 @@ Php::Value Factory::parse_array(Php::Value &array) {
 
 void Factory::set_config(ConfigInterface *config) {
     Factory::config = config;
-}
-
-void Factory::set_definitions(DefinitionInterface *definitions) {
-    Factory::definitions = definitions;
 }
 
 void Factory::set_global_arguments(const std::unordered_map<std::string, Php::Value> &global_arguments) {

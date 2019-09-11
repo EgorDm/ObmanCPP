@@ -8,7 +8,7 @@
 #include <phpcpp.h>
 #include "../structures.h"
 #include "relations_interface.h"
-#include "../implementation/relations.h"
+#include "../wrappers/relations.h"
 
 using namespace object_manager::structures;
 
@@ -30,7 +30,5 @@ namespace object_manager::interface {
         virtual void extend(std::map<std::string, Php::Value> &configuration) = 0;
 
         virtual std::unordered_map<KindId, KindId> &get_preferences() = 0;
-
-        virtual KindTable &get_kind_table() = 0;
     };
 }

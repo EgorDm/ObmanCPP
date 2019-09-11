@@ -7,6 +7,7 @@
 
 #include "../interfaces/factory_interface.h"
 #include "../interfaces.h"
+#include "definition.h"
 
 using namespace object_manager::interface;
 
@@ -15,14 +16,13 @@ namespace object_manager {
     protected:
         ObjectManagerInterface *object_manager; // TODO: managed by php!
         ConfigInterface *config;
-        DefinitionInterface *definitions;
+        Definition definition;
         std::unordered_map<std::string, Php::Value> global_arguments;
         std::vector<KindId> creation_stack; // TODO: combine and unordered set and with a vector for O(1) check and last retrieval
 
     public:
-        Factory(ObjectManagerInterface *object_manager, ConfigInterface *config, DefinitionInterface *definitions,
-                const std::unordered_map<std::string, Php::Value> &global_arguments)
-                : object_manager(object_manager), config(config), definitions(definitions),
+        Factory(ObjectManagerInterface *object_manager, ConfigInterface *config,  const std::unordered_map<std::string, Php::Value> &global_arguments)
+                : object_manager(object_manager), config(config), definition(),
                   global_arguments(global_arguments) {}
 
         Instance create(KindId &requested_type, std::unordered_map<std::string, Argument> &arguments) override;
@@ -50,12 +50,6 @@ namespace object_manager {
         ConfigInterface &get_config() const {
             // TODO: throw a runtime error when not set. Or return a ptr and let others check
             return *config;
-        }
-
-        void set_definitions(DefinitionInterface *definitions);
-
-        DefinitionInterface &get_definitions() const {
-            return *definitions;
         }
 
         void set_global_arguments(const std::unordered_map<std::string, Php::Value> &global_arguments);

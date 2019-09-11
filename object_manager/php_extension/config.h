@@ -6,15 +6,15 @@
 
 #include "../implementation/config.h"
 #include "../transformers/argument_transformer.h"
+#include "../wrappers/relations.h"
 
 namespace php_extension {
     class Config : public Php::Base {
     protected:
-        Php::Value relations;
         object_manager::Config instance;
 
     public:
-        Config() : instance(nullptr) {}
+        Config() : instance() {}
 
         void __construct(Php::Parameters &params)
         {
@@ -23,11 +23,7 @@ namespace php_extension {
             }
         }
 
-        void set_relations(Php::Parameters &params) {
-            relations = params[0];
-//            config.set_relations(relations.implementation<RelationsInterface>());
-           instance.set_relations(new object_manager::Relations(relations)); // TODO: this is a memory leak. Store first
-        }
+        void set_relations(Php::Parameters &params) {}
 
         void set_cache(Php::Parameters &params) {}
 

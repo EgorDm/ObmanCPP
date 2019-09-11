@@ -1,27 +1,20 @@
 //
-// Created by egordm on 08-09-19.
+// Created by egordm on 11-09-19.
 //
 
 #pragma once
 
-#include "../interfaces/relations_interface.h"
-
-using namespace object_manager::interface;
+#include "../interfaces.h"
 
 namespace object_manager {
-    class Relations : public RelationsInterface {
-    protected:
-        Php::Value instance;
+    class Relations : public interface::RelationsInterface {
     public:
-        Relations();
-
-        Relations(const Php::Value &instance);
+        Relations() {}
 
         bool has(KindAccessor &type) override;
 
         std::vector<std::string> get_parents(KindAccessor &type) override;
     };
 }
-
 
 
