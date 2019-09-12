@@ -13,6 +13,6 @@ namespace interception::interface {
     class ConfigInterface {
         virtual bool has_plugins(KindId type) = 0;
 
-        virtual void initialize(Php::Value class_definitions) = 0; // TODO lookup possible types
+        virtual void initialize(std::vector<KindId> &class_definitons) = 0;
     };
 }

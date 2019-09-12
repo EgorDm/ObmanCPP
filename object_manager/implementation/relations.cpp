@@ -6,12 +6,12 @@
 
 using namespace object_manager;
 
-bool Relations::has(KindAccessor &type) {
+bool Relations::has(const KindAccessor &type) {
     Php::Value val = type;
     return Php::call("class_exists", val) || Php::call("interface_exists", val);
 }
 
-std::vector<std::string> Relations::get_parents(KindAccessor &type) {
+std::vector<std::string> Relations::get_parents(const KindAccessor &type) {
     Php::Value class_name = type;
 
     if(!Php::call("class_exists", class_name)) {

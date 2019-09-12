@@ -11,8 +11,8 @@ using namespace object_manager::structures;
 namespace object_manager::interface {
     class RelationsInterface {
     public:
-        virtual bool has(KindAccessor &type) = 0;
+        virtual bool has(const KindAccessor &type) = 0;
 
-        virtual std::vector<std::string> get_parents(KindAccessor &type) = 0;
+        virtual std::vector<std::string> get_parents(const KindAccessor &type) = 0;
     };
 }

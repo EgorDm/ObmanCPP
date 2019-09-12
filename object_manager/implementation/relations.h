@@ -11,9 +11,9 @@ namespace object_manager {
     public:
         Relations() {}
 
-        bool has(KindAccessor &type) override;
+        bool has(const KindAccessor &type) override;
 
-        std::vector<std::string> get_parents(KindAccessor &type) override;
+        std::vector<std::string> get_parents(const KindAccessor &type) override;
     };
 }
 
