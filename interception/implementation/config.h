@@ -5,7 +5,7 @@
 #pragma once
 
 #include <implementation/config.h>
-#include "../interfaces/config.h"
+#include "../interfaces/config_interface.h"
 
 namespace interception {
     class Config : public interface::ConfigInterface {
