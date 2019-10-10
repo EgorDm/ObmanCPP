@@ -17,9 +17,9 @@ namespace object_manager::wrappers {
 
         Relations(const Php::Value &instance);
 
-        bool has(KindAccessor &type) override;
+        bool has(const KindAccessor &type) override;
 
-        std::vector<std::string> get_parents(KindAccessor &type) override;
+        std::vector<std::string> get_parents(const KindAccessor &type) override;
     };
 }
 

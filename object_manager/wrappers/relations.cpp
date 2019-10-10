@@ -10,10 +10,10 @@ Relations::Relations() {}
 
 Relations::Relations(const Php::Value &instance) : instance(instance) {}
 
-bool Relations::has(KindAccessor &type) {
+bool Relations::has(const KindAccessor &type) {
     return instance.call("has", type);
 }
 
-std::vector<std::string> Relations::get_parents(KindAccessor &type) {
+std::vector<std::string> Relations::get_parents(const KindAccessor &type) {
     return instance.call("getParents", type);
 }
